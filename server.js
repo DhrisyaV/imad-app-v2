@@ -64,6 +64,34 @@ app.get('/articles/:articlename', function (req, res){
    
 });
 
+function createTemplate(data)
+{
+    var title=data.title;
+    var heading=data.heading;
+    var date=data.date;
+    var content=data.content;
+    
+    var htmltemplate= `
+    <html>
+    <head>
+    <title>
+    ${title}
+    </title>
+    </head>
+    <body>
+    <h3>
+    ${heading}
+    </h3>
+    <div>
+    ${content}
+    </div>
+    </body>
+    </html>
+    `;
+    
+return htmltemplate;
+    
+}
 
 
 app.get('/ui/style.css', function (req, res) {
