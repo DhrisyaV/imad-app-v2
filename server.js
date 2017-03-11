@@ -52,8 +52,16 @@ app.post('/login', function(req,res){
            {
                
                var dbString=result.rows[0].password;
-           res.send('User successfully created');
-      
+               var salt = dbString.split('$')[2];
+               var hashedPassword = hash(password, salt);
+               if(hashedPassword===dbString){
+               
+           res.send('User successfully logged in');
+               }
+               else{
+                    res.send(403).send('No Username/password invalid');
+               }
+               
       } } }); 
 })
 app.post('/create-user',function(req,res)
