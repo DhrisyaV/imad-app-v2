@@ -28,10 +28,34 @@ function hash(input, salt)
 {
     
     var hashed=crypto.pbkdf2Sync(input,salt, 10000, 512, 'sha512');
-    return ['pbkdf2', "10000", salt, hashed.toString('hex'), "this-si-a-random-string"];
+    return ["pbkdf2", "10000", salt, hashed.toString('hex')].join('$');
 }
 
 
+
+app.post('/login', function(req,res){
+       var username=req.body.username;
+    var password=req.body.password;
+    
+  
+    pool.query('SELECT * from INTO "user" username= $1',[username], function(err,result)
+    {if(err)
+       {
+           res.status(500).send(err.toString());
+       }
+        else
+       {
+           if(result.rows.length===0){
+               res.send(403).send('No User');
+           }
+           else
+           {
+               
+               var dbString=result.rows[0].password;
+           res.send('User successfully created');
+      
+      } } }); 
+})
 app.post('/create-user',function(req,res)
 {
     var username=req.body.username;
